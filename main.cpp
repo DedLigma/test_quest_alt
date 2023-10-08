@@ -15,7 +15,7 @@ int main() {
   std::string url1 = "/p10";
   url1 = base_url + url1;
   json aaa = get_packages(url1);
-  std::cout << aaa;
+  std::cout << aaa.dump(2);
 
   return 0;
 }
