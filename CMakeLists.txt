@@ -5,9 +5,9 @@ set(CMAKE_BUILD_TYPE RelWithDebInfo)
 find_package(CURL REQUIRED)
 find_package(nlohmann_json REQUIRED)
 
+add_library(packageshandler SHARED lib_packages_handler.cpp)
+target_link_libraries(packageshandler PRIVATE CURL::libcurl nlohmann_json::nlohmann_json)
+
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
-
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json packageshandler)

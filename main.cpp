@@ -1,54 +1,45 @@
-#include <curl/curl.h>
-#include <curl/easy.h>
-
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <string>
 
+#include "lib_packages_handler.h"
+
 using json = nlohmann::json;
 
-json get_packages(std::string url);
-static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
+std::string url_slash(const std::string& url);
 
-int main() {
-  const std::string base_url = "https://rdb.altlinux.org/api/export/branch_binary_packages";
-  std::string url1 = "/p10";
-  url1 = base_url + url1;
-  json aaa = get_packages(url1);
-  std::cout << aaa.dump(2);
+int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    std::cout << "No specified file!\n There may be many packages and all of them will be displayed in the "
+                 "terminal.\n Are you sure you want to continue? [y/N] ";
+    std::string answer;
+    std::cin >> answer;
+    if (answer != "y" && answer != "Y") return 0;
+  }
+  const char* filename = argv[1];
+
+  std::string url1, url2;
+  std::cout << "Enter first branch name (e.x. p10, /p10, sisyphus, etc.).\n";
+  std::cin >> url1;
+  std::cout << "Enter second branch name.\n";
+  std::cin >> url2;
+  url1 = url_slash(url1);
+  url2 = url_slash(url2);
+
+  json first_have_second_no, first_no_second_have, version_release_difference;
+  if (main_packages_handler(url1, url2, first_have_second_no, first_no_second_have,
+                            version_release_difference) == 1)
+    return 0;
+
+
+
 
   return 0;
 }
 
-json get_packages(std::string url) {
-  CURL* curl = curl_easy_init();
-  if (curl) {
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-
-    std::string response;
-
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-
-    CURLcode res = curl_easy_perform(curl);
-    if (res == CURLE_OK) {
-      long http_code = 0;
-      curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-      // if (http_code == 0) {
-      json ans = json::parse(response);
-      return ans;
-      // } else {
-      // std::cout << "HTTP error - " << http_code << ".\n";
-      // }
-    }
-  } else {
-    std::cerr << "Error by libcurl initialization.\n";
-  }
-  return -1;
-}
-
-static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-  size_t total_size = size * nmemb;
-  static_cast<std::string*>(userp)->append(static_cast<char*>(contents), total_size);
-  return total_size;
+std::string url_slash(const std::string& url) {
+  if (url[0] == '/')
+    return url;
+  else
+    return '/' + url;
 }
