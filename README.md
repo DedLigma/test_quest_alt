@@ -5,22 +5,29 @@ This program is designed to generate json files containing information about pac
 - {branch2_name}_exclusive.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
 - release_diff_{branch1_name}_and_{branch2_name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
 
+The program is divided into two parts. The main.cpp is responsible for data input and output and is essentially a CLI interface. The lib_package_handler.cpp is a dynamic library, which compares packages lists and generates a JSON response.
+
 # Requirements
 - [nlohmann/json](https://github.com/nlohmann/json) - JSON for modern C++.
 - [libcurl](https://curl.se/libcurl/) - URL transfer library.
+- [CMake](https://cmake.org/) - build system for C++.
+- [gcc compiler](https://gcc.gnu.org/) - GCC or any other compiler such ass clang, etc.
 
 # Install
-## Alt Linux
+### Alt Linux
 Dependencies:
 ```
-apt-get updateapt-get install gcc-c++ cmake nlohmann-json-devel libcurl-devel
+apt-get update
+apt-get install gcc-c++ cmake nlohmann-json-devel libcurl-devel
 ```
-after installing all dependencies, git clone or download .zip. In directory with source files:
+after installing all dependencies, git clone or download .zip. 
+Run this commands in directory with source files:
 ```
 mkdir build
 cmake ..
 make
 ```
+Now you can see alt_test and libpackageshandler.so.
 # How to use it
 You can just run the executable file without arguments. In that case programm generate (or rewrite if exist): {branch1_name}_exclusive.json, {branch2_name}_exclusive.json, release_diff_{branch1_name}_and_{branch2_name}.json.
 ```
@@ -31,15 +38,15 @@ You can specify three files in arguments:
 ./alt_test file1.json file2.json file3.json
 ```
 in this example, file1.json - {branch1_name}_exclusive.json, file2 - {branch2_name}_exclusive.json, file3 - release_diff_{branch1_name}_and_{branch2_name}.json.
-
-After you start the program, you should enter branch names:
+Files do not need to have .json. However, it is worth considering that the output data will be JSON format.
+After you enter the files names or just start the program, you should enter branch names:
 ```
 Enter first branch name (e.g. p10, /p10, sisyphus, etc.).
 p10
 Enter second branch name.
 /p9
 ```
-You can enter them with '/' or without. If you entered an incorrect branch or something went wrong, the program will display a message with error information
+You can enter them with '/' or without. If you entered an incorrect branch or something went wrong, the program will display a message with error information.
 
 After that you just have to press Y or N if you don't enter files names and wait for the program to complete. 
 
