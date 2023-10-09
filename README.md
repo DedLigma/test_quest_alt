@@ -1,11 +1,11 @@
-# test_quest_alt
+# test\_quest\_alt
 # About
 This program is designed to generate json files containing information about packages contained in branches specified by the user.
-- {branch1`_`name}`_`exclusive.json - contains all packages that are in the 1st specified branch, but which are not in the 2nd
-- {branch2`_`name}`_`exclusive.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
-- release`_`diff`_`{branch1_name}`_`and`_`{branch2`_`name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
+- {branch1\_name}\_exclusive.json - contains all packages that are in the 1st specified branch, but which are not in the 2nd
+- {branch2\_name}\_exclusive.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
+- release\_diff\_{branch1\_name}\_and\_{branch2\_name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
 
-The program is divided into two parts. The main.cpp is responsible for data input and output and is essentially a CLI interface. The lib_package_handler.cpp is a dynamic library, which compares packages lists and generates a JSON response.
+The program is divided into two parts. The main.cpp is responsible for data input and output and is essentially a CLI interface. The lib\_package\_handler.cpp is a dynamic library, which compares packages lists and generates a JSON response.
 
 # Requirements
 - [nlohmann/json](https://github.com/nlohmann/json) - JSON for modern C++.
@@ -27,9 +27,9 @@ mkdir build
 cmake ..
 make
 ```
-Now you can see alt_test and libpackageshandler.so.
+Now you can see alt\_test and libpackageshandler.so.
 # How to use it
-You can just run the executable file without arguments. In that case programm generate (or rewrite if exist): {branch1_name}_exclusive.json, {branch2_name}_exclusive.json, release_diff_{branch1_name}_and_{branch2_name}.json.
+You can just run the executable file without arguments. In that case programm generate (or rewrite if exist): {branch1\_name}\_exclusive.json, {branch2\_name}\_exclusive.json, release\_diff\_{branch1\_name}\_and\_{branch2\_name}.json.
 ```
 ./alt_test
 ```
@@ -37,7 +37,7 @@ You can specify three files in arguments:
 ```
 ./alt_test file1.json file2.json file3.json
 ```
-in this example, file1.json - {branch1_name}__exclusive.json, file2 - {branch2_name}__exclusive.json, file3 - release_diff__{branch1_name}__and__{branch2_name}.json.
+in this example, file1.json - {branch1\_name}\_exclusive.json, file2 - {branch2\_name}\_exclusive.json, file3 - release\_diff\_{branch1\_name}\_and\_{branch2\_name}.json.
 Files do not need to have .json. However, it is worth considering that the output data will be JSON format.
 After you enter the files names or just start the program, you should enter branch names:
 ```
