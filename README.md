@@ -3,7 +3,7 @@
 This program is designed to generate json files containing information about packages contained in branches specified by the user.
 - {branch1_name}_exclusive.json - contains all packages that are in the 1st specified branch, but which are not in the 2nd
 - {branch2_name}_exclusive.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
-- release_diff_{branch1_name}_and_{branch2_name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
+- release_diff_{branch1_name}__and__{branch2_name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
 
 The program is divided into two parts. The main.cpp is responsible for data input and output and is essentially a CLI interface. The lib_package_handler.cpp is a dynamic library, which compares packages lists and generates a JSON response.
 
@@ -37,7 +37,7 @@ You can specify three files in arguments:
 ```
 ./alt_test file1.json file2.json file3.json
 ```
-in this example, file1.json - {branch1_name}_exclusive.json, file2 - {branch2_name}_exclusive.json, file3 - release_diff_{branch1_name}_and_{branch2_name}.json.
+in this example, file1.json - {branch1_name}__exclusive.json, file2 - {branch2_name}__exclusive.json, file3 - release_diff__{branch1_name}__and__{branch2_name}.json.
 Files do not need to have .json. However, it is worth considering that the output data will be JSON format.
 After you enter the files names or just start the program, you should enter branch names:
 ```
