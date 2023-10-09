@@ -10,12 +10,19 @@ using json = nlohmann::json;
 std::string url_slash(const std::string& url);
 
 int main(int argc, char* argv[]) {
-  std::string filename_first_have = "first_have.json";
-  std::string filename_second_have = "second_have.json";
-  std::string filename_release_difference = "release_difference.json";
+  std::string branch1, branch2;
+  std::cout << "Enter first branch name (e.g. p10, /p10, sisyphus, etc.).\n";
+  std::cin >> branch1;
+  std::cout << "Enter second branch name.\n";
+  std::cin >> branch2;
+
+  std::string filename_first_have = branch1 + "_exclusive.json";
+  std::string filename_second_have = branch2 + "_exclusive.json";
+  std::string filename_release_difference = "release_diff_" + branch1 + "_and_" + branch2 + ".json";
   if (argc < 4) {
-    std::cout << "Not all files have been specified. 3 files (first_have.json, second_have.json, "
-                 "release_difference.json) will be created and REWRITTED. Do you want to continue? [y/N] ";
+    std::cout << "Not all files have been specified. 3 files (" << filename_first_have << ", "
+              << filename_second_have << ", " << filename_release_difference
+              << ") will be created and REWRITTED. Do you want to continue? [y/N] ";
     std::string answer;
     std::cin >> answer;
     if (answer != "y" && answer != "Y") return 0;
@@ -25,15 +32,10 @@ int main(int argc, char* argv[]) {
     filename_release_difference = argv[3];
   }
 
-  std::string branch1, branch2;
-  std::cout << "Enter first branch name (e.g. p10, /p10, sisyphus, etc.).\n";
-  std::cin >> branch1;
-  std::cout << "Enter second branch name.\n";
-  std::cin >> branch2;
   std::string url1 = url_slash(branch1);
   std::string url2 = url_slash(branch2);
-  
-  if(url1 == url2) {
+
+  if (url1 == url2) {
     std::cout << "Error! The branch names are the same.\n";
     return 0;
   }

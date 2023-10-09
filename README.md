@@ -1,9 +1,9 @@
 # test_quest_alt
 # About
 This program is designed to generate json files containing information about packages contained in branches specified by the user.
-- first_have.json - contains all packages that are in the 1st specified branch, but which are not in the 2nd
-- second_have.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
-- release_difference.json - contains information about packages whose version in 1 specified branch is greater than in 2
+- {branch1_name}_exclusive.json - contains all packages that are in the 1st specified branch, but which are not in the 2nd
+- {branch2_name}_exclusive.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
+- release_diff_{branch1_name}_and_{branch2_name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
 
 # Requirements
 - [nlohmann/json](https://github.com/nlohmann/json) - JSON for modern C++.
@@ -22,7 +22,7 @@ cmake ..
 make
 ```
 # How to use it
-You can just run the executable file without arguments. In that case programm generate (or rewrite if exist): first_have.json, second_have.json, release_difference.json.
+You can just run the executable file without arguments. In that case programm generate (or rewrite if exist): {branch1_name}_exclusive.json, {branch2_name}_exclusive.json, release_diff_{branch1_name}_and_{branch2_name}.json.
 ```
 ./alt_test
 ```
@@ -30,9 +30,9 @@ You can specify three files in arguments:
 ```
 ./alt_test file1.json file2.json file3.json
 ```
-in this example, file1.json - first_have.json, file2 - second_have.json, file3 - release_difference.json.
+in this example, file1.json - {branch1_name}_exclusive.json, file2 - {branch2_name}_exclusive.json, file3 - release_diff_{branch1_name}_and_{branch2_name}.json.
 
-After you enter the files names or just start the program, you should enter branch names:
+After you start the program, you should enter branch names:
 ```
 Enter first branch name (e.g. p10, /p10, sisyphus, etc.).
 p10
@@ -41,7 +41,7 @@ Enter second branch name.
 ```
 You can enter them with '/' or without. If you entered an incorrect branch or something went wrong, the program will display a message with error information
 
-After that you just have to wait for the program to complete. 
+After that you just have to press Y or N if you don't enter files names and wait for the program to complete. 
 
 # Output JSON files structure
 The structure of the output JSON files is similar to the received ones. First, the number of packages is written in "length", and then an array "packages" with information about each of them.

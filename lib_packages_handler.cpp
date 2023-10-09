@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <string>
 
 using json = nlohmann::json;
 
@@ -35,12 +36,52 @@ int main_packages_handler(std::string url1, std::string url2, json& first_have_s
     return 1;
   }
 
-  get_unique_packages(url1_data, url2_data, first_have_second_no, "Unique packages in 1st branch progress: ");
-  get_unique_packages(url1_data, url2_data, first_no_second_have, "Unique packages in 2nd branch progress: ");
+  get_unique_packages(url1_data, url2_data, first_have_second_no, "Unique packages in 1st branch progress:");
+  get_unique_packages(url2_data, url1_data, first_no_second_have, "Unique packages in 2nd branch progress: ");
   get_version_release_difference(url1_data, url2_data, version_release_difference,
                                  "Version release difference packages progress: ");
 
   return 0;
+}
+
+std::vector<std::string> split_version(const std::string& version) {
+  std::vector<std::string> components;
+  std::string component;
+  for (char c : version) {
+    if (c == '.' || std::isdigit(c)) {
+      component += c;
+    } else {
+      if (!component.empty()) {
+        components.push_back(component);
+        component.clear();
+      }
+    }
+  }
+  if (!component.empty()) {
+    components.push_back(component);
+  }
+  return components;
+}
+
+bool version_compare(const std::string& el1, const std::string& el2) {
+  std::vector<std::string> components1 = split_version(el1);
+  std::vector<std::string> components2 = split_version(el2);
+
+  for (size_t i = 0; i < components1.size() && i < components2.size(); ++i) {
+    if (components1[i] < components2[i]) {
+      return false;
+    } else if (components1[i] > components2[i]) {
+      return true;
+    }
+  }
+
+  if (components1.size() < components2.size()) {
+    return false;
+  } else if (components1.size() > components2.size()) {
+    return true;
+  }
+
+  return false;
 }
 
 void get_version_release_difference(const json& first_data, const json& second_data, json& result,
@@ -54,9 +95,7 @@ void get_version_release_difference(const json& first_data, const json& second_d
       if (first_data["packages"][i]["arch"] == element2["arch"] &&
           first_data["packages"][i]["disttag"] == element2["disttag"] &&
           first_data["packages"][i]["name"] == element2["name"] &&
-          first_data["packages"][i]["release"] == element2["release"] &&
-          first_data["packages"][i]["source"] == element2["source"] &&
-          first_data["packages"][i]["version"] > element2["version"]) {
+          version_compare(first_data["packages"][i]["version"], element2["version"])) {
         is_found = true;
         break;
       }
