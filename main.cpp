@@ -26,12 +26,17 @@ int main(int argc, char* argv[]) {
   }
 
   std::string branch1, branch2;
-  std::cout << "Enter first branch name (e.x. p10, /p10, sisyphus, etc.).\n";
+  std::cout << "Enter first branch name (e.g. p10, /p10, sisyphus, etc.).\n";
   std::cin >> branch1;
   std::cout << "Enter second branch name.\n";
   std::cin >> branch2;
   std::string url1 = url_slash(branch1);
   std::string url2 = url_slash(branch2);
+  
+  if(url1 == url2) {
+    std::cout << "Error! The branch names are the same.\n";
+    return 0;
+  }
 
   json first_have_second_no, first_no_second_have, version_release_difference;
   if (main_packages_handler(url1, url2, first_have_second_no, first_no_second_have,
@@ -40,7 +45,7 @@ int main(int argc, char* argv[]) {
 
   std::ofstream file_first_have(filename_first_have);
   if (file_first_have.is_open()) {
-    file_first_have << first_have_second_no;
+    file_first_have << first_have_second_no.dump(2);
     file_first_have.close();
     std::cout << "All packages that are in " << branch1 << " but not in " << branch2 << " were written to "
               << filename_first_have << " successfully.\n";
@@ -50,7 +55,7 @@ int main(int argc, char* argv[]) {
 
   std::ofstream file_second_have(filename_second_have);
   if (file_second_have.is_open()) {
-    file_second_have << first_no_second_have;
+    file_second_have << first_no_second_have.dump(2);
     file_second_have.close();
     std::cout << "All packages that are in " << branch2 << " but not in " << branch1 << " were written to "
               << filename_second_have << " successfully.\n";
@@ -60,10 +65,10 @@ int main(int argc, char* argv[]) {
 
   std::ofstream file_release_difference(filename_release_difference);
   if (file_release_difference.is_open()) {
-    file_release_difference << version_release_difference;
+    file_release_difference << version_release_difference.dump(2);
     file_release_difference.close();
     std::cout << "all packages whose version release version is larger in the " << branch1 << " than in the "
-              << branch2 << "were written to " << filename_release_difference << " successfully.\n";
+              << branch2 << " were written to " << filename_release_difference << " successfully.\n";
   } else {
     std::cout << "Error by opening " << filename_release_difference << '\n';
   }
