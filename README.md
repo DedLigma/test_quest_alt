@@ -1,9 +1,9 @@
 # test_quest_alt
 # About
 This program is designed to generate json files containing information about packages contained in branches specified by the user.
-- {branch1_name}_exclusive.json - contains all packages that are in the 1st specified branch, but which are not in the 2nd
-- {branch2_name}_exclusive.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
-- release_diff_{branch1_name}__and__{branch2_name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
+- {branch1`_`name}`_`exclusive.json - contains all packages that are in the 1st specified branch, but which are not in the 2nd
+- {branch2`_`name}`_`exclusive.json - contains all packages that are in the 2nd specified branch, but which are not in the 1st
+- release`_`diff`_`{branch1_name}`_`and`_`{branch2`_`name}.json - contains information about packages whose version in 1 specified branch is greater than in 2
 
 The program is divided into two parts. The main.cpp is responsible for data input and output and is essentially a CLI interface. The lib_package_handler.cpp is a dynamic library, which compares packages lists and generates a JSON response.
 
